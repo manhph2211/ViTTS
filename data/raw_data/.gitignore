@@ -1,0 +1,7 @@
+*.zip
+*.gz
+*.xz
+*.bz2
+*_*/
+ThanhThao/
+VanHoang/

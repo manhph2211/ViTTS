@@ -1,0 +1,31 @@
+dataset: "Article"
+
+path:
+  corpus_path: "data/raw_data/"
+  lexicon_path: "data/lexicon/lexicon.dict"
+  raw_path: "data/custom_data"
+  preprocessed_path: "data/preprocessed_data"
+
+preprocessing:
+  speaker_embedder_cuda: True
+  sort_data: True # sort data by mel frame length
+  val_size: 512
+  text:
+    text_cleaners: ["basic_cleaners"]
+    language: "vi"
+    sub_divide_word: True # subdivide long words into smaller pieces
+    max_phoneme_num: 7 # threshold for subdivision
+  audio:
+    sampling_rate: 22050
+    max_wav_value: 32768.0
+  stft:
+    filter_length: 1024
+    hop_length: 256
+    win_length: 1024
+  mel:
+    n_mel_channels: 80
+    mel_fmin: 0
+    mel_fmax: 8000 # please set to 8000 for HiFi-GAN vocoder, set to null for MelGAN vocoder
+  aligner:
+    beta_binomial_scaling_factor: 1.
+  speaker_embedder: "DeepSpeaker"

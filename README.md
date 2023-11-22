@@ -119,22 +119,22 @@ CUDA_VISIBLE_DEVICES=0 python3 tools/preprocess.py
 
 # Training & Inference
 
-First, you might wanna train the vocoder, here I implemented both HiFiGan and iSTFTNet. To train iSTFTNet, just simply run:
+You can start off by training the vocoder (optional but important), here I implemented both HiFiGan and iSTFTNet. To train iSTFTNet, simply run:
 
 ```angular2html
 CUDA_VISIBLE_DEVICES=0 python src/models/vocoder/iSTFTNet/train.py --config src/models/vocoder/iSTFTNet/config.json
 ```
 
-Now simply train acoustic model with:
+Now you can train the acoustic model:
 
 ```angular2html
-CUDA_VISIBLE_DEVICES=0 python3 train.py --restore_step [] --model_type [small,base] # small or base version of portaspeech
+CUDA_VISIBLE_DEVICES=0 python3 train.py --restore_step 0 --model_type base # small or base version of portaspeech
 ``` 
 
 For inference, run: 
 
 ```angular2html
-CUDA_VISIBLE_DEVICES=0 python3 synthesize.py --restore_step [] --model_type [small,base] --mode [single,batch] --text [if single mode] --source path_to_txt_file_if_batch_mode
+CUDA_VISIBLE_DEVICES=0 python3 synthesize.py --restore_step 0 --model_type base --mode single --text text_if_single_mode] --source path_to_txt_file_if_batch_mode
 ```
 
 One special note is that you can find necessary checkpoints of iSTFTNet, HiFiGAN and MOSNet, Deepspeech in their official repos and put them in suitable folders as above structure. Meanwhile, I just cannot provide you with the trained acoustic models hehe! Please train it yourself :) 

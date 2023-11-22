@@ -90,19 +90,19 @@ Assume you have a dataset named `Article`, which contains 2 speakers, each speak
 
 ## Alignments
 
-Note that, if you don't have alignments which are duration labels for the training process, you need to create them. Here I used [MFA](https://mfa-models.readthedocs.io/en/latest/) to do that. All file saved with `.TextGrid` tails should be placed like `data/preprocessed_data/TextGrid/*/*.TextGrid`. Then you should try these commands:
+Note that, if you don't have alignments which are duration labels for the training process, you need to create them. Here I used [MFA](https://mfa-models.readthedocs.io/en/latest/) to do that. All file saved with `.TextGrid` tails should be placed like `data/preprocessed_data/TextGrid/*/*.TextGrid`. 
 
-```angular2html
-conda install -c conda-forge montreal-forced-aligner
-mfa train --config_path path_to_config/mfa_config.yml ./data/custom_data --clean ./data/lexicon/lexicon.dict ./data/preprocessed_data/TextGrid/
-```
-
-# Tools
-
-We should first have `lexicon.dict` in the folder `data/lexicon`. I actually implemented my own G2P tool here but note that is for Vietnamese. In case you use other languages, just use their corresponding g2p tool. To get the lexicon file (grapheme-phoneme dictionary), you should run:
+Now, we should first have `lexicon.dict` in the folder `data/lexicon`. I actually implemented my own G2P tool here but note that is for Vietnamese. In case you use other languages, just use their corresponding g2p tool. To get the lexicon file (grapheme-phoneme dictionary), you should run:
 
 ```angular2html
 python3 tools/phoneme_converter.py 
+```
+
+Then you should try these commands to get the alignments for the given data:
+
+```angular2html
+conda install -c conda-forge montreal-forced-aligner
+mfa train --config_path path_to_config/mfa_config.yml ./data/custom_data --clean ./data/lexicon/lexicon.dict ./data/preprocessed_data/TextGrid/ # in case you have lexicon.dict
 ```
 
 Next, custom data with: 
@@ -111,19 +111,21 @@ Next, custom data with:
 python3 tools/prepare_alignment.py
 ```
 
-Following that, run following command to create speaker embeddings (using pretrained [DeepSpeaker](https://github.com/philipperemy/deep-speaker) model) and several important folders:
+Following that, run the below command to create speaker embeddings (using pretrained [DeepSpeaker](https://github.com/philipperemy/deep-speaker) model) and several important folders. This is for conditional input of Portaspeech so that during inference we can adjust which speaker is speaking.
 
 ```angular2html
 CUDA_VISIBLE_DEVICES=0 python3 tools/preprocess.py
 ``` 
 
-Next step, you might wanna train the vocoder, here I implemented both HiFiGan and iSTFTNet. To train iSTFTNet, just simply run:
+# Training & Inference
+
+First, you might wanna train the vocoder, here I implemented both HiFiGan and iSTFTNet. To train iSTFTNet, just simply run:
 
 ```angular2html
 CUDA_VISIBLE_DEVICES=0 python src/models/vocoder/iSTFTNet/train.py --config src/models/vocoder/iSTFTNet/config.json
 ```
 
-Now simply training acoustic model with:
+Now simply train acoustic model with:
 
 ```angular2html
 CUDA_VISIBLE_DEVICES=0 python3 train.py --restore_step [] --model_type [small,base] # small or base version of portaspeech

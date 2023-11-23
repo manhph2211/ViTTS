@@ -7,7 +7,7 @@ In this repo, I focused on building a Multi-Speaker Text-to-Speech system :smile
 
 ![image](https://user-images.githubusercontent.com/61444616/163743356-40d3f968-3795-4461-b6df-cd468931e2a8.png)
 
-Portaspeech is one of the latest acoustic models (published in 2022) and it meets the needs of fast, lightweight, diverse, expressive and high-quality by utilizing some special attributes: Mixture alignment, VAE lightweight with enhanced prior as well as flow-based postnet. 
+Portaspeech was published in 2022 and it meets the needs of fast, lightweight, diverse, expressive and high-quality by utilizing some special attributes: Mixture alignment, VAE lightweight with enhanced prior as well as flow-based postnet. 
 
 Mixture alignment is a big point of this paper, which uses both hard alignment (word level duration) and soft alignment (phoneme level duration) to eliminate the sensitivity of the normal alignment approach and also, an additional word-to-phoneme attention mechanism to capture more information about how relationship between a phoneme and a word. This mixture alignment module can be even applied to other TTS models.
 
